@@ -1,0 +1,57 @@
+<html>
+<head>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+
+	<div class="container">
+		<div class="starter-template">
+			<h1>Dynamically Generated Sentence</h1>
+			<p class="lead">
+				<span id="member" /> 
+			</p>
+		</div>
+		<div id="error" class="text-danger"></div>
+
+	</div>
+
+	<!-- JavaScript for Dynamic Behavior: -->
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
+		th:src="@{/js/jquery-1.11.0.min.js}" />
+
+	<script type="text/javascript">
+		//	TODO: Alter this prefix when instructed.
+		var prefix = "/services";
+
+		// Perform AJAX requests...
+		$.getJSON(prefix + "/member", null, displayMember).fail(
+				displayErrorMember);
+
+		//	Handle Success:
+
+		function displayMember(results) {
+			$("#member").html(results.name);
+		}
+
+		//	Handle Errors:	
+		function displayErrorMember(x, s, m) {
+			err(x, s, m, "member");
+		}
+		// Dsiplay text of AJAX error message using a hidden div
+		function err(xhr, status, msg, prefix) {
+			// Display an error in the 'error' div above and show it.
+			var text = xhr.responseText;
+			var emsg = "<p><b>AJAX Failure retrieving " + prefix + ": "
+					+ xhr.status + " " + msg + "</b><br/></p>";
+
+			$("#error").append(emsg);
+			$("#error").show();
+		}
+	</script>
+
+</body>
+</html>
